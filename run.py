@@ -1,7 +1,3 @@
-"""
-Windows-compatible WSGI server using waitress
-Run with: python run_windows.py
-"""
 from waitress import serve
 from backend.app import create_app
 from backend.config import Config
