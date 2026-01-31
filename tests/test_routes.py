@@ -2,6 +2,8 @@ import pytest
 from backend.app import create_app
 from backend.config import Config
 
+pytestmark = pytest.mark.integration
+
 
 @pytest.fixture
 def client():
@@ -12,6 +14,7 @@ def client():
         yield client
 
 
+@pytest.mark.smoke
 def test_index_route(client):
     """Test the home page route"""
     response = client.get('/')
@@ -19,6 +22,7 @@ def test_index_route(client):
     assert b'Multi-Converter' in response.data
 
 
+@pytest.mark.smoke
 def test_health_endpoint(client):
     """Test the health check endpoint"""
     response = client.get('/health')
@@ -55,6 +59,7 @@ def test_get_units_endpoint(client):
     assert 'number_base' in data
 
 
+@pytest.mark.smoke
 def test_convert_length_success(client):
     """Test length conversion"""
     response = client.post('/api/convert/length', json={

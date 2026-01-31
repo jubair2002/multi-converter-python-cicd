@@ -3,6 +3,7 @@ from backend.app import create_app
 from backend.config import Config
 
 
+@pytest.mark.unit
 def test_app_creation():
     """Test that the app factory creates an app instance"""
     app = create_app(Config)
@@ -10,6 +11,7 @@ def test_app_creation():
     assert app.config['TESTING'] is False
 
 
+@pytest.mark.unit
 def test_app_config():
     """Test that app configuration is loaded correctly"""
     app = create_app(Config)
@@ -19,6 +21,7 @@ def test_app_config():
     assert 'PORT' in app.config
 
 
+@pytest.mark.unit
 def test_app_blueprint_registration():
     """Test that blueprints are registered"""
     app = create_app(Config)

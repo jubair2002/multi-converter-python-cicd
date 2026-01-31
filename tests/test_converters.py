@@ -5,6 +5,7 @@ from backend.utils.converters import (
 )
 
 
+@pytest.mark.unit
 class TestLengthConverter:
     """Test length converter"""
     
@@ -25,6 +26,7 @@ class TestLengthConverter:
             LengthConverter.convert(100, 'invalid', 'meter')
 
 
+@pytest.mark.unit
 class TestWeightConverter:
     """Test weight converter"""
     
@@ -41,6 +43,7 @@ class TestWeightConverter:
             WeightConverter.convert(100, 'invalid', 'kilogram')
 
 
+@pytest.mark.unit
 class TestTemperatureConverter:
     """Test temperature converter"""
     
@@ -61,6 +64,7 @@ class TestTemperatureConverter:
         assert result == 100.0
 
 
+@pytest.mark.unit
 class TestVolumeConverter:
     """Test volume converter"""
     
@@ -77,6 +81,7 @@ class TestVolumeConverter:
             VolumeConverter.convert(100, 'invalid', 'liter')
 
 
+@pytest.mark.unit
 class TestCurrencyConverter:
     """Test currency converter"""
     
@@ -93,6 +98,7 @@ class TestCurrencyConverter:
             CurrencyConverter.convert(100, 'INVALID', 'USD')
 
 
+@pytest.mark.unit
 class TestNumberBaseConverter:
     """Test number base converter"""
     
@@ -123,4 +129,16 @@ class TestNumberBaseConverter:
     def test_invalid_base(self):
         with pytest.raises(ValueError):
             NumberBaseConverter.convert('10', 'invalid', 'binary')
+
+    @pytest.mark.parametrize("value,from_base,to_base,expected", [
+        ("0", "decimal", "binary", "0"),
+        ("1", "decimal", "binary", "1"),
+        ("255", "decimal", "hexadecimal", "FF"),
+        ("A", "hexadecimal", "decimal", "10"),
+        ("77", "octal", "decimal", "63"),
+    ])
+    def test_number_base_parametrized(self, value, from_base, to_base, expected):
+        """Parametrized number base conversions."""
+        result = NumberBaseConverter.convert(value, from_base, to_base)
+        assert result == expected
 
